@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<head>
+  <meta charset="utf8"/>
+  <script type="application/javascript;version=1.8" src="AnimationScheduler.js"></script>
+  <style>
+    body {
+      background-color: #131c26;
+      color: white;
+    }
+    button,input {
+      border: 1px solid black;
+    }
+    #speed {
+      width: 4ch;
+    }
+    #timer {
+      font-size: 3em;
+    }
+
+    #pause-button, #play-button { display: none;}
+    body.playing #pause-button, body:not(.playing) #play-button {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="clock" class="playing">
+    <div id="timer">00s:000ms</div>
+    <button onclick="Scheduler.pauseAndStep(-100)">-100ms</button>
+    <button onclick="Scheduler.pauseAndStep(+100)">+100ms</button>
+    <button onclick="Scheduler.resetStartTime()">reset</button>
+    <button onclick="Scheduler.pause()" id="pause-button">pause</button>
+    <button onclick="Scheduler.play()" id="play-button">play</button>
+    <div><label>speed:<input oninput="Scheduler.setSpeed(parseFloat(this.value))" type="number" id="speed"/></label></div>
+  </div>
+</body>
+
+<script type="application/javascript;version=1.8">
+    let timer = document.querySelector("#timer");
+    Scheduler.on("update", function() {
+        timer.textContent = Scheduler.getTargetTime(10000);
+    });
+
+    Scheduler.on("pause", function() {
+      document.body.classList.remove("playing");
+    });
+
+    Scheduler.on("play", function() {
+      document.body.classList.add("playing");
+    });
+
+    Scheduler.on("speed-update", function() {
+    });
+
+    window.onunload = Scheduler.destroy;
+</script>
+</html>
