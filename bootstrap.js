@@ -21,6 +21,7 @@ let animClockDefinition = {
   url: "chrome://animclock/content/panel.xhtml",
   label: animClockStrings.GetStringFromName("animClock.label"),
   tooltip: animClockStrings.GetStringFromName("animClock.tooltip"),
+  icon: "chrome://browser/skin/devtools/tool-profiler.png",
   isTargetSupported: function(target) {
     return target.isLocalTab;
   },
