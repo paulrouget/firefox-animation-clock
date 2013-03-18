@@ -42,9 +42,9 @@ let Scheduler = {
     if (this._destroyed)
       return;
     this._destroyed = true;
-    this.masterWindow = null;
     this.wUtils.restoreNormalRefresh();
     this.wUtils = null;
+    this.masterWindow = null;
   },
 
   resetStartTime: function() {
@@ -53,7 +53,7 @@ let Scheduler = {
   },
 
   getTargetTime: function(modulo) {
-    let time = ~~(this._targetTime % modulo);
+    let time = Math.round(this._targetTime % modulo);
     let ms = time % 1000;
     time -= ms;
     s = time / 1000;
@@ -81,7 +81,7 @@ let Scheduler = {
   },
 
   setSpeed: function(value) {
-    if (!(typeof value == "number")) {
+    if (!(typeof value == "number") || Number.isNaN(value)) {
       return false;
     }
     this._speed = value;
